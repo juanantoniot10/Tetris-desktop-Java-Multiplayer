@@ -46,7 +46,7 @@ public class Jugador implements Serializable,Comparable<Jugador>{
 
 	@Override
 	public int compareTo(Jugador o) {
-		return this.nombre.compareTo(o.nombre);
+		return o.puntuacion-this.puntuacion;
 	}
 	
 	@Override
