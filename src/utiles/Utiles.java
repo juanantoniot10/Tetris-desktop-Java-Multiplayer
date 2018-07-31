@@ -3,15 +3,9 @@ package utiles;
 import java.awt.Container;
 import java.awt.Image;
 import java.io.File;
-import java.util.TreeSet;
-
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-
-import acceso.DAO;
-import almacenes.AlmacenIndividualSet;
-import modelo.Jugador;
 
 public class Utiles {
 	public static final String RUTAJUGADORES = "./data/jugadores/jugadores.data";

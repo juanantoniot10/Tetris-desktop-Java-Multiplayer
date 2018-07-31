@@ -14,11 +14,12 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.GridLayout;
-import java.awt.FlowLayout;
-import java.awt.Cursor;
-import javax.swing.JTextField;
 
 public class VistaPrincipal extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected JPanel panelParaJuego;
 	protected JPanel panelJugadores;
 	protected PanelOpciones panelOpciones;
@@ -79,13 +80,10 @@ public class VistaPrincipal extends JFrame{
 		panelPrincipal.add(panelJugadores, gbc_panelJugadores);
 		panelJugadores.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		PanelJugador panelJugador1 = new PanelJugador("Eufemia");
+		PanelJugador panelJugador1 = new PanelJugador("Player1");
 		panelJugador1.setOpaque(false);
+		panelJugador1.setName("0");
 		panelJugadores.add(panelJugador1);
-
-		PanelJugador panelJugador2 = new PanelJugador("Juan");
-		panelJugador2.setOpaque(false);
-		panelJugadores.add(panelJugador2);
 	}
 	
 }

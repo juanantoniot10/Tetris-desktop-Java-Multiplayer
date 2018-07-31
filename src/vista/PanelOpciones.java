@@ -1,31 +1,28 @@
 package vista;
 
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Insets;
-import javax.swing.JLabel;
 import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 
 public class PanelOpciones extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JButton btnNivel;
 	private JButton btnTamaopantalla;
 	private JButton btnColorDeFondo;
 	private JButton btnIniciarJuego;
 	private JPanel panelNombreOpcion;
 	private JPanel panelValorOpcion;
-	private JTextField nombreJugador;
+	private JButton numeroDeJugadores;
 	public PanelOpciones() {
 		setOpaque(false);
 		setLayout(new GridLayout(0, 2, 0, 0));
@@ -67,6 +64,16 @@ public class PanelOpciones extends JPanel{
 		btnColorDeFondo.setHorizontalTextPosition(SwingConstants.LEADING);
 		btnColorDeFondo.setFont(new Font("Pristina", Font.BOLD, 18));
 		
+		numeroDeJugadores = new JButton("Jugadores");
+		numeroDeJugadores.setMinimumSize(new Dimension(43, 23));
+		numeroDeJugadores.setMaximumSize(new Dimension(2220, 400));
+		numeroDeJugadores.setMargin(new Insets(20, 20, 20, 20));
+		numeroDeJugadores.setHorizontalTextPosition(SwingConstants.LEADING);
+		numeroDeJugadores.setForeground(Color.LIGHT_GRAY);
+		numeroDeJugadores.setFont(new Font("Pristina", Font.BOLD, 18));
+		numeroDeJugadores.setBackground(new Color(51, 51, 51));
+		panelNombreOpcion.add(numeroDeJugadores);
+		
 		btnIniciarJuego = new JButton("INICIAR JUEGO");
 		btnIniciarJuego.setForeground(Color.WHITE);
 		btnIniciarJuego.setBackground(new Color(51, 102, 51));
@@ -76,14 +83,6 @@ public class PanelOpciones extends JPanel{
 		btnIniciarJuego.setHorizontalTextPosition(SwingConstants.LEADING);
 		btnIniciarJuego.setFont(new Font("Pristina", Font.BOLD, 18));
 		panelNombreOpcion.add(btnIniciarJuego);
-		
-		nombreJugador = new JTextField();
-		nombreJugador.setToolTipText("Player1");
-		nombreJugador.setText("Player1");
-		nombreJugador.setHorizontalAlignment(SwingConstants.CENTER);
-		nombreJugador.setFont(new Font("Pristina", Font.BOLD, 17));
-		nombreJugador.setColumns(10);
-		panelNombreOpcion.add(nombreJugador);
 		
 		panelValorOpcion = new JPanel();
 		panelValorOpcion.setOpaque(false);
@@ -118,13 +117,6 @@ public class PanelOpciones extends JPanel{
 	public JPanel getPanelValorOpcion() {
 		return panelValorOpcion;
 	}
-
-	public JTextField getNombreJugador() {
-		return nombreJugador;
-	}
-	public void setNombreJugador(JTextField nombreJugador) {
-		this.nombreJugador = nombreJugador;
-	}
 	public void setBtnColorDeFondo(JButton btnColorDeFondo) {
 		this.btnColorDeFondo = btnColorDeFondo;
 	}
@@ -136,6 +128,14 @@ public class PanelOpciones extends JPanel{
 	}
 	public void setPanelValorOpcion(JPanel panelValorOpcion) {
 		this.panelValorOpcion = panelValorOpcion;
+	}
+	public JButton getNumeroDeJugadores() {
+		return numeroDeJugadores;
+	}
+	public void setNumeroDeJugadores(JButton numeroDeJugadores) {
+		this.numeroDeJugadores = numeroDeJugadores;
 	}	
+	
+	
 	
 }

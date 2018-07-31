@@ -2,27 +2,20 @@ package vista;
 
 import javax.swing.JPanel;
 import java.awt.Color;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JLabel;
-
 import java.awt.GridLayout;
-import java.awt.Insets;
-import javax.swing.border.LineBorder;
-
-import acciones.ListenerJuego;
-
-import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
-import java.awt.GridBagLayout;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
 public class PanelGameOver extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel panelJugadores;
 	
 	public PanelGameOver(JPanel panelJugadores) {
-		this.panelJugadores = panelJugadores;
+		this.setPanelJugadores(panelJugadores);
 		setLayout(new GridLayout(2, 0, 0, 0));
 		
 		JLabel lblGame = new JLabel("GAME");
@@ -41,6 +34,14 @@ public class PanelGameOver extends JPanel{
 		lblOver.setBackground(Color.BLACK);
 		add(lblOver);
 		
+	}
+
+	public JPanel getPanelJugadores() {
+		return panelJugadores;
+	}
+
+	public void setPanelJugadores(JPanel panelJugadores) {
+		this.panelJugadores = panelJugadores;
 	}
 	
 }

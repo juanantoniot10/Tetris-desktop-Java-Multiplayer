@@ -33,7 +33,7 @@ public class Logica {
 	private Datos datos;
 	
 	
-	public Logica(Jugador jugador1) {
+	public Logica() {
 		super();
 		this.tablero = new Casilla [20+3][10];
 		this.setNivel(1);
@@ -41,7 +41,6 @@ public class Logica {
 		this.columnas = 10;
 		llenarTableroDeCasillas();
 		this.jugadores = new ArrayList<>();
-		this.jugadores.add(jugador1);
 		this.datos = new Datos();
 	}
 
@@ -91,20 +90,10 @@ public class Logica {
 			borrarPiezaActiva();
 			piezaActiva.moverPieza(lateral,vertical);
 			comprobarNivel();
-			if(fin)finalizar();
 		}
 		actualizarColoresTablero();
 	}
 
-
-	private void finalizar() {
-		guardarPuntuacion(jugadores.get(0));
-//		cargarMaximasPuntuaciones();
-	}
-
-	private void guardarPuntuacion(Jugador jugador) {
-		
-	}
 
 	private void comprobarNivel() {
 		this.nivel = (lineas/30)+1;

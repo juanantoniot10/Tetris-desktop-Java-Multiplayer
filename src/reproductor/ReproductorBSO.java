@@ -2,17 +2,13 @@ package reproductor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.FileInputStream;
-import java.util.Timer;
-
 import javax.swing.SwingWorker;
-
 import javazoom.jl.player.Player;
 
 public class ReproductorBSO implements ActionListener{
 	private boolean sonando = false;
-	private SwingWorker worker;
+	private SwingWorker<Object, Object> worker;
 	private Player reproductor;
 	private long inicioCancion = 0;
 	private long duracionCancion = 218000;
@@ -55,10 +51,10 @@ public class ReproductorBSO implements ActionListener{
 		return System.currentTimeMillis()>=inicioCancion+duracionCancion;
 	}
 
-	public SwingWorker getWorker() {
+	public SwingWorker<Object, Object> getWorker() {
 		return worker;
 	}
-	public void setWorker(SwingWorker worker) {
+	public void setWorker(SwingWorker<Object, Object> worker) {
 		this.worker = worker;
 	}
 	public Player getReproductor() {

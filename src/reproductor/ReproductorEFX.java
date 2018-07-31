@@ -8,7 +8,7 @@ import javazoom.jl.player.Player;
 public class ReproductorEFX{
 		
 	public static void reproducirAudio(String ruta) {
-		SwingWorker worker=  new SwingWorker<Object, Object>(){
+		SwingWorker<Object, Object> worker=  new SwingWorker<Object, Object>(){
 				@Override
 				protected Object doInBackground() throws Exception {
 					try {

@@ -1,9 +1,7 @@
 package modeloPiezas;
 
 import java.awt.Color;
-
 import modelo.Casilla;
-import utiles.Colores;
 
 public abstract class Pieza {
 	protected Casilla casillas [];

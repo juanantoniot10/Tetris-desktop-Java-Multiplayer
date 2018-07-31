@@ -10,6 +10,10 @@ import javax.swing.BoxLayout;
 import java.awt.Color;
 
 public class PanelElegirNivel extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JButton nivel1;
 	private JButton nivel2;
 	private JButton nivel3;

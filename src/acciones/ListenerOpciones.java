@@ -2,15 +2,23 @@ package acciones;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import control.Logica;
 import modelo.Jugador;
 import utiles.Utiles;
 import vista.PanelOpciones;
 import vista.PanelElegirColorFondo;
 import vista.PanelElegirNivel;
+import vista.PanelElegirNumeroJugadores;
 import vista.PanelJuego;
+import vista.PanelJugador;
 import vista.PanelTamanhoTablero;
 
 public class ListenerOpciones implements ActionListener{
@@ -26,7 +34,7 @@ public class ListenerOpciones implements ActionListener{
 		this.panelOpciones = panelOpciones;
 		this.panelJugadores = panelJugadores;
 		this.panelParaJuego = panelParaJuego;
-		this.logica = new Logica(new Jugador(panelOpciones.getNombreJugador().getText()));
+		this.logica = new Logica();
 	}
 
 	@Override
@@ -48,8 +56,13 @@ public class ListenerOpciones implements ActionListener{
 			addPanel(panelColorFondo);
 			ponerListenersPanelColor(panelColorFondo,new ListenerColorFondo(panelJugadores.getParent().getParent()));
 			break;
+		case "Jugadores":
+			PanelElegirNumeroJugadores panelElegirNumeroJugadores = new PanelElegirNumeroJugadores();
+			addPanel(panelElegirNumeroJugadores);
+			addListenersNumeroJugadores(panelElegirNumeroJugadores,new ListenerNumeroJugadores(panelJugadores,logica,panelElegirNumeroJugadores),new KeyListenerNombreJugadore(panelJugadores,logica,panelElegirNumeroJugadores));
+			break;	
 		case "INICIAR JUEGO":
-			logica.getJugadores().get(0).setNombre(String.valueOf(panelOpciones.getNombreJugador().getText()));
+			addJugadores();
 			this.panelOpciones.removeAll();
 			this.panelJuego = new PanelJuego(this.logica.getFilas(), this.logica.getColumnas());
 			panelParaJuego.add(panelJuego);
@@ -61,6 +74,28 @@ public class ListenerOpciones implements ActionListener{
 		}
 	}
 
+	private void addJugadores() {
+		for (int i = 0; i < panelJugadores.getComponentCount(); i++) {
+			logica.getJugadores().add(new Jugador(((PanelJugador)panelJugadores.getComponent(i)).getNombre().getText()));
+			logica.getJugadores().get(i).setNombre(((PanelJugador)panelJugadores.getComponent(i)).getNombre().getText());
+			logica.getJugadores().get(i).setNivel(Integer.valueOf(((PanelJugador)panelJugadores.getComponent(i)).getNivel().getText()).intValue());
+			logica.getJugadores().get(i).setLineas(Integer.valueOf(((PanelJugador)panelJugadores.getComponent(i)).getLineas().getText()).intValue());
+		}
+	}
+
+	private void addListenersNumeroJugadores(PanelElegirNumeroJugadores panel,
+			ListenerNumeroJugadores listener, KeyListener keyListener) {
+		for (int i = 0; i < panel.getComponentCount(); i++) {
+			if(panel.getComponent(i).getClass()==JButton.class) {
+				((JButton)panel.getComponent(i)).addActionListener(listener);
+			}
+			else {
+				((JTextField)panel.getComponent(i)).addKeyListener(keyListener);
+			}
+		}
+		Utiles.actualizar(panelOpciones.getPanelValorOpcion());
+		
+	}
 
 	private void addListeners(JPanel panel, ActionListener listener) {
 		for (int i = 0; i < panel.getComponentCount(); i++) {

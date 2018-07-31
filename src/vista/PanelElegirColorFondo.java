@@ -8,9 +8,12 @@ import java.awt.Insets;
 import java.awt.Dimension;
 import javax.swing.BoxLayout;
 import java.awt.Color;
-import javax.swing.JSplitPane;
 
 public class PanelElegirColorFondo extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JButton button_10;
 	private JButton button_11;
 	public PanelElegirColorFondo() {

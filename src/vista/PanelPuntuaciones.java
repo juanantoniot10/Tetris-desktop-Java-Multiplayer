@@ -9,6 +9,10 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.GridBagConstraints;
 
 public class PanelPuntuaciones extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String[][] data;
 	private String[] nombresColumnas = { "Nombre", "Puntos", "Lineas", "Nivel" };
 	private DefaultTableModel modeloTabla = new DefaultTableModel(data, nombresColumnas);

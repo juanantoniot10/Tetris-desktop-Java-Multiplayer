@@ -2,20 +2,15 @@ package vista;
 
 import javax.swing.JPanel;
 import java.awt.Color;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-
 import java.awt.GridLayout;
-import java.awt.Insets;
-import javax.swing.border.LineBorder;
-
-import acciones.ListenerJuego;
-
 import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 
 public class PanelJuego extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public PanelJuego(int filas,int columnas) {
 		setFocusCycleRoot(true);
 		setFocusTraversalPolicyProvider(true);

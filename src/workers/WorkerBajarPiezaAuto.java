@@ -1,13 +1,10 @@
 package workers;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.util.TreeMap;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingWorker;
 import control.Logica;
-import control.Puente;
 import modelo.Jugador;
 import modeloPiezas.Cuadradito;
 import modeloPiezas.EleInversa;

@@ -16,7 +16,7 @@ public class Puente extends VistaPrincipal{
 	public Puente() {
 		super();
 		this.listenerOpciones = new ListenerOpciones(this.panelOpciones,this.panelJugadores,this.panelParaJuego);
-		for (int i = 0; i < ((JPanel)this.panelOpciones.getComponent(0)).getComponentCount()-1; i++) {
+		for (int i = 0; i < ((JPanel)this.panelOpciones.getComponent(0)).getComponentCount(); i++) {
 			((JButton)((JPanel)this.panelOpciones.getComponent(0)).getComponent(i)).addActionListener(listenerOpciones);
 		}
 	}

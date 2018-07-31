@@ -57,30 +57,6 @@ public class Ele extends Pieza {
 		if(estado>3)estado=0;
 	}
 
-	/**
-	 * 
-	 */
-	private void ponerVertical() {
-		for (int i = 0; i < this.casillas.length; i++) {
-			this.casillas[i].desplazar(-2+i, 1-i);
-		}
-	}
-
-	/**
-	 * 
-	 */
-	private void ponerHorizontal() {
-		for (int i = 0; i < this.casillas.length; i++) {
-			this.casillas[i].desplazar(+2-i, -1+i);
-		}
-	}
-
-	/**
-	 * @return
-	 */
-	private boolean isVertical() {
-		return this.casillas[0].getPosicionX()!=this.casillas[1].getPosicionX();
-	}
 	@Override
 	public String toString() {
 		return "ele";

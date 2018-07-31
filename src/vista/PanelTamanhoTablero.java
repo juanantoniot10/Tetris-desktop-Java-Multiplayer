@@ -10,6 +10,10 @@ import javax.swing.BoxLayout;
 import java.awt.Color;
 
 public class PanelTamanhoTablero extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JButton clasico;
 	private JButton pequenho;
 	private JButton grande;

@@ -8,18 +8,18 @@ import java.awt.Insets;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Dimension;
-import java.awt.Component;
 import java.awt.GridLayout;
-import java.awt.FlowLayout;
-import java.awt.BorderLayout;
 import javax.swing.border.LineBorder;
 
-import reproductor.ReproductorBSO;
-
 import javax.swing.JButton;
+import javax.swing.ImageIcon;
 
 public class PanelJugador extends JPanel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final int numeroFilasNext = 2;
 	private static final int numeroColumnasNext = 4;
 	private JLabel lineas;
@@ -54,7 +54,14 @@ public class PanelJugador extends JPanel{
 		gbc_nombre.gridy = 0;
 		add(nombre, gbc_nombre);
 		
-		btnMusicOnoff = new JButton("music on/off");
+		btnMusicOnoff = new JButton("");
+		btnMusicOnoff.setIconTextGap(3);
+		btnMusicOnoff.setBorder(null);
+		btnMusicOnoff.setBackground(Color.BLACK);
+		btnMusicOnoff.setIcon(new ImageIcon("img/iconoMusica.png"));
+		btnMusicOnoff.setToolTipText("music on/off");
+		btnMusicOnoff.setMinimumSize(new Dimension(31, 23));
+		btnMusicOnoff.setMaximumSize(new Dimension(31, 23));
 		GridBagConstraints gbc_btnMusicOnoff = new GridBagConstraints();
 		gbc_btnMusicOnoff.insets = new Insets(0, 0, 5, 0);
 		gbc_btnMusicOnoff.gridx = 1;
