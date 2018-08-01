@@ -111,19 +111,27 @@ public class WorkerBajarPiezaAuto extends SwingWorker<Object, Object>{
 	}
 
 	private void pintarNombreJugador(int numeroJugador) {
-		((PanelJugador)this.panelJugadores.getComponent(0)).getNombre().setText(String.valueOf(logica.getJugadores().get(0).getNombre()));
+		for (int i = 0; i < logica.getJugadores().size(); i++) {
+			((PanelJugador)this.panelJugadores.getComponent(0)).getNombre().setText(String.valueOf(logica.getJugadores().get(0).getNombre()));
+		}
 	}
 
 	private void pintarNivel() {
-		((PanelJugador)this.panelJugadores.getComponent(0)).getNivel().setText(String.valueOf(logica.getNivel()));
+		for (int i = 0; i < logica.getJugadores().size(); i++) {
+			((PanelJugador)this.panelJugadores.getComponent(0)).getNivel().setText(String.valueOf(logica.getNivel()));
+		}
 	}
 	
 	private void pintarPuntos() {
-		((PanelJugador)this.panelJugadores.getComponent(0)).getPuntos().setText(String.valueOf(logica.getJugadores().get(0).getPuntuacion()));
+		for (int i = 0; i < logica.getJugadores().size(); i++) {
+			((PanelJugador)this.panelJugadores.getComponent(i)).getPuntos().setText(String.valueOf(logica.getJugadores().get(i).getPuntuacion()));
+		}
 	}
 
 	private void pintarLineas() {
-		((PanelJugador)this.panelJugadores.getComponent(0)).getLineas().setText(String.valueOf(logica.getLineas()));
+		for (int i = 0; i < logica.getJugadores().size(); i++) {
+			((PanelJugador)this.panelJugadores.getComponent(i)).getLineas().setText(String.valueOf(logica.getLineas()));
+		}
 	}
 
 	private void pintarTablero() {
@@ -142,7 +150,7 @@ public class WorkerBajarPiezaAuto extends SwingWorker<Object, Object>{
 	}
 	
 	private void pintarPiezaNext(Pieza nextPieza,int numeroJugador) {
-		borrarPiezasNext();
+		borrarPiezasNext(numeroJugador);
 		switch (nextPieza.toString()) {
 		case "palito":
 			pintarPiezaNext((Palito)nextPieza,numeroJugador);
@@ -266,10 +274,8 @@ public class WorkerBajarPiezaAuto extends SwingWorker<Object, Object>{
 		}
 	}
 	
-	private void borrarPiezasNext() {
-		for (int i = 0; i < logica.getPiezasNext().size(); i++) {
-			borrarPiezaNext(i);
-		}
+	private void borrarPiezasNext(int numeroJugador) {
+		borrarPiezaNext(numeroJugador);
 	}
 
 	private void borrarPiezaNext(int numeroJugador) {

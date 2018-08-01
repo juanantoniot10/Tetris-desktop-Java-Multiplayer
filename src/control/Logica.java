@@ -61,8 +61,8 @@ public class Logica {
 		if(jugadores.size()>1) {
 			if(numeroJugador == 0)posicionY = 3;
 			if(numeroJugador == 1)posicionY = (tablero[0].length)-4;
-			if(numeroJugador == 2)posicionY = (tablero[0].length/2)-2;
-			if(numeroJugador == 3)posicionY = (tablero[0].length/2)+2;
+			if(numeroJugador == 2)posicionY = (tablero[0].length/2)-3;
+			if(numeroJugador == 3)posicionY = (tablero[0].length/2)+3;
 		}
 		switch (numeroAleatorio) {
 		case 1:
@@ -130,11 +130,14 @@ public class Logica {
 	}
 
 	private boolean isPropia(Casilla casilla,int numeroPieza) {
-		for (int i = 0; i < piezasActiva.get(numeroPieza).getCasillas().length; i++) {
-			if(piezasActiva.get(numeroPieza).getCasillas()[i].equals(casilla)) {
-				return true;
+		for (int i = 0; i < piezasActiva.size(); i++) {
+			for (int j = 0; j < piezasActiva.get(i).getCasillas().length; j++) {
+				if(piezasActiva.get(i).getCasillas()[j].equals(casilla)) {
+					return true;
+				}
 			}
 		}
+			
 		return false;
 	}
 
@@ -152,11 +155,10 @@ public class Logica {
 						ponerPiezaNextEnTablero(numeroPieza);
 						if(comprobarAbajo(1, numeroPieza)) {
 							fin = true;
-							
 						}
 					}	
 					movimientoFinalizado = true;
-					jugadores.get(0).setPuntuacion(jugadores.get(0).getPuntuacion()+20*nivel);
+					jugadores.get(numeroPieza).setPuntuacion(jugadores.get(numeroPieza).getPuntuacion()+20*nivel);
 				}
 			}
 			actualizarColoresTablero(numeroPieza);
@@ -174,11 +176,18 @@ public class Logica {
 				lineas++;
 				lineasConsecutivas ++;
 				this.numeroDeLinea = i;
-				jugadores.get(0).setPuntuacion(jugadores.get(0).getPuntuacion()+100+(2*lineasConsecutivas));
+				puntuarLineas();
 				bajarLinea();
 			}
 		}
 		lineasConsecutivas = 0;
+	}
+
+	private void puntuarLineas() {
+		for (int i = 0; i < jugadores.size(); i++) {
+			jugadores.get(i).setPuntuacion(jugadores.get(i).getPuntuacion()+100+(2*lineasConsecutivas));
+		}
+		
 	}
 
 	private void bajarLinea() {
