@@ -22,14 +22,14 @@ public class Logica {
 	private int columnas;
 	private int nivel;
 	private int lineas =0;
-	private Pieza piezaNext;
+	private ArrayList<Pieza> piezasNext = new ArrayList<>();
 	private boolean fin = false;
-	private Pieza piezaActiva;
+	private ArrayList<Pieza> piezasActiva = new ArrayList<>();
 	private boolean comprobandoLinea = false;
 	private int numeroDeLinea = 0;
 	private int lineasConsecutivas = 0;
 	private boolean isTecla = false;
-	private ArrayList <Jugador> jugadores;
+	private ArrayList <Jugador> jugadores = new ArrayList<>();
 	private Datos datos;
 	
 	
@@ -54,30 +54,37 @@ public class Logica {
 
 
 
-	public Pieza generarPieza() {
+	public Pieza generarPieza(int numeroJugador) {
 		int numeroAleatorio = Utiles.crearRandom(1, 7);
 		Pieza piezaGenerada = null;
+		int posicionY = (tablero[0].length/2)-1;
+		if(jugadores.size()>1) {
+			if(numeroJugador == 0)posicionY = 3;
+			if(numeroJugador == 1)posicionY = (tablero[0].length)-4;
+			if(numeroJugador == 2)posicionY = (tablero[0].length/2)-2;
+			if(numeroJugador == 3)posicionY = (tablero[0].length/2)+2;
+		}
 		switch (numeroAleatorio) {
 		case 1:
-			piezaGenerada = new Palito((tablero[0].length/2)-1);
+			piezaGenerada = new Palito(posicionY);
 			break;
 		case 2:
-			piezaGenerada = new Cuadradito((tablero[0].length/2)-1);
+			piezaGenerada = new Cuadradito(posicionY);
 			break;
 		case 3:
-			piezaGenerada = new EleInversa((tablero[0].length/2)-1);
+			piezaGenerada = new EleInversa(posicionY);
 			break;
 		case 4:
-			piezaGenerada = new Ele((tablero[0].length/2)-1);
+			piezaGenerada = new Ele(posicionY);
 			break;
 		case 5:
-			piezaGenerada = new Zeta((tablero[0].length/2)-1);
+			piezaGenerada = new Zeta(posicionY);
 			break;
 		case 6:
-			piezaGenerada = new ZetaInversa((tablero[0].length/2)-1);
+			piezaGenerada = new ZetaInversa(posicionY);
 			break;
 		case 7:
-			piezaGenerada = new Te((tablero[0].length/2)-1);
+			piezaGenerada = new Te(posicionY);
 			break;
 		}
 		return piezaGenerada;
@@ -85,13 +92,13 @@ public class Logica {
 	}
 
 
-	public void jugar(int lateral,int vertical) {
-		if(!gestionarMovimiento(lateral,vertical)) {
-			borrarPiezaActiva();
-			piezaActiva.moverPieza(lateral,vertical);
+	public void jugar(int lateral,int vertical,int numeroPieza) {
+		if(!gestionarMovimiento(lateral,vertical, numeroPieza)) {
+			borrarPiezaActiva(numeroPieza);
+			piezasActiva.get(numeroPieza).moverPieza(lateral,vertical);
 			comprobarNivel();
 		}
-		actualizarColoresTablero();
+		actualizarColoresTablero(numeroPieza);
 	}
 
 
@@ -100,50 +107,50 @@ public class Logica {
 		
 	}
 
-	private boolean gestionarMovimiento(int lateral,int vertical) {
+	private boolean gestionarMovimiento(int lateral,int vertical,int numeroPieza) {
 		boolean movimientoFinalizado = false;
-		movimientoFinalizado = comprobarAbajo(vertical);
-		movimientoFinalizado = comprobarLateral(lateral);
+		movimientoFinalizado = comprobarAbajo(vertical, numeroPieza);
+		movimientoFinalizado = comprobarLateral(lateral, numeroPieza);
 		return movimientoFinalizado;
 	}
 
 
-	private boolean comprobarLateral(int lateral) {
+	private boolean comprobarLateral(int lateral,int numeroPieza) {
 		boolean movimientoFinalizado = false;
-		for (int i = 0; i < piezaActiva.getCasillas().length; i++) {
-			if((piezaActiva.getCasillas()[i].getPosicionY()+lateral < 0 ||
-					piezaActiva.getCasillas()[i].getPosicionY()+lateral>=tablero[0].length) ||(
-					tablero[piezaActiva.getCasillas()[i].getPosicionX()][piezaActiva.getCasillas()[i].getPosicionY()+lateral].getColor()!=Color.BLACK && 
-					!isPropia(tablero[piezaActiva.getCasillas()[i].getPosicionX()][piezaActiva.getCasillas()[i].getPosicionY()+lateral]))) {
-				piezaActiva.moverPieza(0,0);
+		for (int i = 0; i < piezasActiva.get(numeroPieza).getCasillas().length; i++) {
+			if((piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionY()+lateral < 0 ||
+					piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionY()+lateral>=tablero[0].length) ||(
+					tablero[piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionX()][piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionY()+lateral].getColor()!=Color.BLACK && 
+					!isPropia(tablero[piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionX()][piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionY()+lateral], numeroPieza))) {
+				piezasActiva.get(numeroPieza).moverPieza(0,0);
 				movimientoFinalizado = true;
 			}
 		}
 		return movimientoFinalizado;
 	}
 
-	private boolean isPropia(Casilla casilla) {
-		for (int i = 0; i < piezaActiva.getCasillas().length; i++) {
-			if(piezaActiva.getCasillas()[i].equals(casilla)) {
+	private boolean isPropia(Casilla casilla,int numeroPieza) {
+		for (int i = 0; i < piezasActiva.get(numeroPieza).getCasillas().length; i++) {
+			if(piezasActiva.get(numeroPieza).getCasillas()[i].equals(casilla)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private boolean comprobarAbajo(int vertical) {
+	private boolean comprobarAbajo(int vertical,int numeroPieza) {
 		boolean movimientoFinalizado = false;
-			for (int i = 0; i < piezaActiva.getCasillas().length&&!movimientoFinalizado; i++) {
-				if(piezaActiva.getCasillas()[i].getPosicionX()+vertical >= tablero.length ||(
-						tablero[piezaActiva.getCasillas()[i].getPosicionX()+vertical][piezaActiva.getCasillas()[i].getPosicionY()].getColor()!=Color.BLACK &&
-						!isPropia(tablero[piezaActiva.getCasillas()[i].getPosicionX()+vertical][piezaActiva.getCasillas()[i].getPosicionY()]))) {
-					piezaActiva.moverPieza(0,0);
+			for (int i = 0; i < piezasActiva.get(numeroPieza).getCasillas().length&&!movimientoFinalizado; i++) {
+				if(piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionX()+vertical >= tablero.length ||(
+						tablero[piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionX()+vertical][piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionY()].getColor()!=Color.BLACK &&
+						!isPropia(tablero[piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionX()+vertical][piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionY()], numeroPieza))) {
+					piezasActiva.get(numeroPieza).moverPieza(0,0);
 					if(!comprobandoLinea) {
 						comprobandoLinea = true;
 						ReproductorEFX.reproducirAudio("audios/encajarPieza.mp3");
 						comprobarLineas();
-						ponerPiezaNextEnTablero();
-						if(comprobarAbajo(1)) {
+						ponerPiezaNextEnTablero(numeroPieza);
+						if(comprobarAbajo(1, numeroPieza)) {
 							fin = true;
 							
 						}
@@ -152,7 +159,7 @@ public class Logica {
 					jugadores.get(0).setPuntuacion(jugadores.get(0).getPuntuacion()+20*nivel);
 				}
 			}
-			actualizarColoresTablero();
+			actualizarColoresTablero(numeroPieza);
 			comprobandoLinea = false;
 		return movimientoFinalizado;
 	}
@@ -197,24 +204,24 @@ public class Logica {
 		return linea;
 	}
 
-	public void borrarPiezaActiva() {
-		for (int i = 0; i < piezaActiva.getCasillas().length; i++) {
-			tablero[piezaActiva.getCasillas()[i].getPosicionX()][piezaActiva.getCasillas()[i].getPosicionY()].setColor(Color.BLACK);
+	public void borrarPiezaActiva(int numeroPieza) {
+		for (int i = 0; i < piezasActiva.get(numeroPieza).getCasillas().length; i++) {
+			tablero[piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionX()][piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionY()].setColor(Color.BLACK);
 		}
 	}
 
-	public void actualizarColoresTablero() {
-		for (int i = 0; i < piezaActiva.getCasillas().length; i++) {
-			tablero[piezaActiva.getCasillas()[i].getPosicionX()][piezaActiva.getCasillas()[i].getPosicionY()].setColor(piezaActiva.getColor());
+	public void actualizarColoresTablero(int numeroPieza) {
+		for (int i = 0; i < piezasActiva.get(numeroPieza).getCasillas().length; i++) {
+			tablero[piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionX()][piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionY()].setColor(piezasActiva.get(numeroPieza).getColor());
 		}
 	}
 
-	public void ponerPiezaNextEnTablero() {
-		for (int i = 0; i < piezaNext.getCasillas().length; i++) {
-			getTablero()[piezaNext.getCasillas()[i].getPosicionX()][piezaNext.getCasillas()[i].getPosicionY()].setColor(piezaNext.getColor());
+	public void ponerPiezaNextEnTablero(int numeroPieza) {
+		for (int i = 0; i < piezasNext.get(numeroPieza).getCasillas().length; i++) {
+			getTablero()[piezasNext.get(numeroPieza).getCasillas()[i].getPosicionX()][piezasNext.get(numeroPieza).getCasillas()[i].getPosicionY()].setColor(piezasNext.get(numeroPieza).getColor());
 		}
-		piezaActiva = piezaNext;
-		piezaNext = generarPieza();
+		this.piezasActiva.set(numeroPieza,  piezasNext.get(numeroPieza));
+		this.piezasNext.set(numeroPieza, generarPieza(numeroPieza));
 		
 	}
 	
@@ -225,23 +232,23 @@ public class Logica {
 		llenarTableroDeCasillas();
 	}
 	
-	public void cambiarFormaPieza() {
-		piezaActiva.cambiarFormaPieza();
-		recolocarPieza();
-		if(comprobarColisionCambiarPieza(0,0)) {
-			piezaActiva.cambiarFormaPieza();
-			piezaActiva.cambiarFormaPieza();
-			piezaActiva.cambiarFormaPieza();
+	public void cambiarFormaPieza(int numeroPieza) {
+		piezasActiva.get(numeroPieza).cambiarFormaPieza();
+		recolocarPieza(numeroPieza);
+		if(comprobarColisionCambiarPieza(0,0, numeroPieza)) {
+			piezasActiva.get(numeroPieza).cambiarFormaPieza();
+			piezasActiva.get(numeroPieza).cambiarFormaPieza();
+			piezasActiva.get(numeroPieza).cambiarFormaPieza();
 		}
 		
 	}
 
-	private boolean comprobarColisionCambiarPieza(int lateral,int vertical) {
+	private boolean comprobarColisionCambiarPieza(int lateral,int vertical,int numeroPieza) {
 		boolean retorno = false;
-		for (int i = 0; i < piezaActiva.getCasillas().length; i++) {
-			if((piezaActiva.getCasillas()[i].getPosicionY()+lateral>=tablero[0].length||piezaActiva.getCasillas()[i].getPosicionY()+lateral<0) ||
-					(tablero[piezaActiva.getCasillas()[i].getPosicionX()+vertical][piezaActiva.getCasillas()[i].getPosicionY()+lateral].getColor()!=Color.BLACK &&
-						!isPropia(tablero[piezaActiva.getCasillas()[i].getPosicionX()+vertical][piezaActiva.getCasillas()[i].getPosicionY()+lateral]))) {
+		for (int i = 0; i < piezasActiva.get(numeroPieza).getCasillas().length; i++) {
+			if((piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionY()+lateral>=tablero[0].length||piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionY()+lateral<0) ||
+					(tablero[piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionX()+vertical][piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionY()+lateral].getColor()!=Color.BLACK &&
+						!isPropia(tablero[piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionX()+vertical][piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionY()+lateral], numeroPieza))) {
 				retorno=true;
 			}
 		}	
@@ -249,47 +256,39 @@ public class Logica {
 		return retorno;
 	}
 
-	private void recolocarPieza() {
-		for (int i = 0; i < piezaActiva.getCasillas().length; i++) {
-			comprobarIzquierdaCambioPieza(i);
-			comprobarDerechaCambioPieza(i);
-			comprobarAbajoCambioPieza(i);
+	private void recolocarPieza(int numeroPieza) {
+		for (int i = 0; i < piezasActiva.get(numeroPieza).getCasillas().length; i++) {
+			comprobarIzquierdaCambioPieza(i, numeroPieza);
+			comprobarDerechaCambioPieza(i, numeroPieza);
+			comprobarAbajoCambioPieza(i, numeroPieza);
 		}
 	}
 
-	private void comprobarAbajoCambioPieza(int i) {
-		if(piezaActiva.getCasillas()[i].getPosicionX()>=tablero.length) {
-			int vertical = (tablero.length-1) - piezaActiva.getCasillas()[i].getPosicionX();
-			if(!comprobarColisionCambiarPieza(0,vertical)) {
-				piezaActiva.moverPieza(0, vertical);
+	private void comprobarAbajoCambioPieza(int i,int numeroPieza) {
+		if(piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionX()>=tablero.length) {
+			int vertical = (tablero.length-1) - piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionX();
+			if(!comprobarColisionCambiarPieza(0,vertical, numeroPieza)) {
+				piezasActiva.get(numeroPieza).moverPieza(0, vertical);
 			}
 		}
 	}
 
-	private void comprobarDerechaCambioPieza(int i) {
-		if(piezaActiva.getCasillas()[i].getPosicionY()>=tablero[0].length) {
-			int lateral = (tablero[0].length-1) - piezaActiva.getCasillas()[i].getPosicionY();
-			if(!comprobarColisionCambiarPieza(lateral,0)) {
-				piezaActiva.moverPieza(lateral, 0);
+	private void comprobarDerechaCambioPieza(int i,int numeroPieza) {
+		if(piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionY()>=tablero[0].length) {
+			int lateral = (tablero[0].length-1) - piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionY();
+			if(!comprobarColisionCambiarPieza(lateral,0, numeroPieza)) {
+				piezasActiva.get(numeroPieza).moverPieza(lateral, 0);
 			}
 		}
 	}
 
-	private void comprobarIzquierdaCambioPieza(int i) {
-		if(piezaActiva.getCasillas()[i].getPosicionY()<0) {
-			int lateral = 0 - piezaActiva.getCasillas()[i].getPosicionY();
-			if(!comprobarColisionCambiarPieza(lateral,0)) {
-				piezaActiva.moverPieza(lateral, 0);
+	private void comprobarIzquierdaCambioPieza(int i,int numeroPieza) {
+		if(piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionY()<0) {
+			int lateral = 0 - piezasActiva.get(numeroPieza).getCasillas()[i].getPosicionY();
+			if(!comprobarColisionCambiarPieza(lateral,0, numeroPieza)) {
+				piezasActiva.get(numeroPieza).moverPieza(lateral, 0);
 			}
 		}
-	}
-
-	public Pieza getPiezaActiva() {
-		return piezaActiva;
-	}
-
-	public void setPiezaActiva(Pieza piezaActiva) {
-		this.piezaActiva = piezaActiva;
 	}
 
 	public boolean isFin() {
@@ -304,20 +303,36 @@ public class Logica {
 		this.tablero = tablero;
 	}
 
+	public ArrayList<Pieza> getPiezasNext() {
+		return piezasNext;
+	}
+
+	public void setPiezasNext(ArrayList<Pieza> piezasNext) {
+		this.piezasNext = piezasNext;
+	}
+
+	public ArrayList<Pieza> getPiezasActiva() {
+		return piezasActiva;
+	}
+
+	public void setPiezasActiva(ArrayList<Pieza> piezasActiva) {
+		this.piezasActiva = piezasActiva;
+	}
+
+	public Datos getDatos() {
+		return datos;
+	}
+
+	public void setDatos(Datos datos) {
+		this.datos = datos;
+	}
+
 	public void setFilas(int filas) {
 		this.filas = filas;
 	}
 
 	public void setColumnas(int columnas) {
 		this.columnas = columnas;
-	}
-
-	public Pieza getPiezaNext() {
-		return piezaNext;
-	}
-	
-	public void setPiezaNext(Pieza piezaNext) {
-		this.piezaNext = piezaNext;
 	}
 	
 	public int getNivel() {
@@ -386,8 +401,6 @@ public class Logica {
 	public void setJugadores(ArrayList<Jugador> jugadores) {
 		this.jugadores = jugadores;
 	}
-
-	
 	
 	public int getNumeroDeJugadoresGuardados() {
 		return datos.obtenerTotalJugadores();
@@ -408,7 +421,6 @@ public class Logica {
 
 	private int generarIdJugador() {
 		return datos.obtenerTotalJugadores();
-		
 	}
 	
 }

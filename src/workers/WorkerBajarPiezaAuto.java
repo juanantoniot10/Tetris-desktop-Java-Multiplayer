@@ -52,12 +52,12 @@ public class WorkerBajarPiezaAuto extends SwingWorker<Object, Object>{
 					int tiempoEspera = 1000-(logica.getNivel()*100);
 					if(tiempoEspera <=50)tiempoEspera = 50;
 					Thread.sleep(tiempoEspera);
-					pintarPiezaNext(logica.getPiezaNext(),0);
+					pintarPiezasNext();
 					pintarLineas();
 					pintarPuntos();
 					pintarNivel();
 					pintarNombreJugador(0);
-					logica.jugar(0, 1);
+					bajarPiezas();
 					pintarTablero();
 					if(reproductor.isCancionTerminada()) {
 						((PanelJugador)panelJugadores.getComponent(0)).getBtnMusicOnoff().doClick();
@@ -76,6 +76,12 @@ public class WorkerBajarPiezaAuto extends SwingWorker<Object, Object>{
 		return null;
 	}
 
+	private void bajarPiezas() {
+		for (int i = 0; i < logica.getPiezasActiva().size(); i++) {
+			logica.jugar(0, 1, i);
+		}
+	}
+
 	private void animacionFinalizar() {
 		for (int i = 0; i < logica.getFilas(); i++) {
 			for (int j = 0; j < logica.getColumnas(); j++) {
@@ -84,7 +90,6 @@ public class WorkerBajarPiezaAuto extends SwingWorker<Object, Object>{
 				try {
 					Thread.sleep((11000/(logica.getTablero().length*logica.getTablero()[0].length))/2);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -96,7 +101,6 @@ public class WorkerBajarPiezaAuto extends SwingWorker<Object, Object>{
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		padrePanelJuego.removeAll();
@@ -130,8 +134,15 @@ public class WorkerBajarPiezaAuto extends SwingWorker<Object, Object>{
 		}	
 		Utiles.actualizar(panelJuego);
 	}
+	
+	private void pintarPiezasNext() {
+		for (int i = 0; i < logica.getPiezasNext().size(); i++) {
+			pintarPiezaNext(logica.getPiezasNext().get(i),i);
+		}
+	}
+	
 	private void pintarPiezaNext(Pieza nextPieza,int numeroJugador) {
-		borrarPiezaNext(0);
+		borrarPiezasNext();
 		switch (nextPieza.toString()) {
 		case "palito":
 			pintarPiezaNext((Palito)nextPieza,numeroJugador);
@@ -255,6 +266,12 @@ public class WorkerBajarPiezaAuto extends SwingWorker<Object, Object>{
 		}
 	}
 	
+	private void borrarPiezasNext() {
+		for (int i = 0; i < logica.getPiezasNext().size(); i++) {
+			borrarPiezaNext(i);
+		}
+	}
+
 	private void borrarPiezaNext(int numeroJugador) {
 		for (int i = 0; i < ((PanelJugador)panelJugadores.getComponent(numeroJugador)).getPanelNext().getComponentCount(); i++) {
 			((JLabel)((PanelJugador)panelJugadores.getComponent(numeroJugador)).getPanelNext().getComponent(i)).setBackground(Color.BLACK);

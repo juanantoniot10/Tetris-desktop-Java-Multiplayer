@@ -23,14 +23,19 @@ public class ListenerJuego implements KeyListener{
 		this.cuadradosTablero = new LabelVacia [logica.getFilas()][logica.getColumnas()];
 		this.worker = new WorkerBajarPiezaAuto(logica, panelJuego,panelJugadores,cuadradosTablero);
 		rellenarTableroVacio();
-		logica.setPiezaNext(logica.generarPieza());
-		logica.ponerPiezaNextEnTablero();
+		generarPiezasNext();
 		Utiles.actualizar(panelJugadores);
 		Utiles.actualizar(panelJuego);
 		worker.execute();
 	}
 
-	
+	private void generarPiezasNext() {
+		for (int i = 0; i < logica.getJugadores().size(); i++) {
+			logica.getPiezasNext().add(logica.generarPieza(i));
+			logica.getPiezasActiva().add(logica.getPiezasNext().get(i));
+			logica.ponerPiezaNextEnTablero(i);
+		}
+	}
 
 	private void pintarTablero() {
 		for (int i = 0; i < logica.getFilas(); i++) {
@@ -43,49 +48,52 @@ public class ListenerJuego implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		char key = 'v';
+		int key = 0;
 		if(!logica.isFin()) {
-			key = e.getKeyChar();
+			key = e.getKeyCode();
 		}
 		switch (key) {
-		case 'a':
-			logica.jugar(-1, 0);
+		case 65:
+			logica.jugar(-1, 0,0);
 			ReproductorEFX.reproducirAudio("audios/moverPieza.mp3");
 			pintarTablero();
 			break;
-		case 'd':
-			logica.jugar(1, 0);
+		case 68:
+			logica.jugar(1, 0,0);
 			ReproductorEFX.reproducirAudio("audios/moverPieza.mp3");
 			pintarTablero();
 			break;
-		case 's':
-			logica.jugar(0, 1);
+		case 83:
+			logica.jugar(0, 1,0);
 			ReproductorEFX.reproducirAudio("audios/moverPieza.mp3");
 			pintarTablero();
 			break;
-		case 'w':
-			logica.borrarPiezaActiva();
-			logica.cambiarFormaPieza();
-			logica.actualizarColoresTablero();
+		case 87:
+			logica.borrarPiezaActiva(0);
+			logica.cambiarFormaPieza(0);
+			logica.actualizarColoresTablero(0);
 			ReproductorEFX.reproducirAudio("audios/cambioDePieza.mp3");
 			pintarTablero();
 			break;
-		case ' ':
-			logica.borrarPiezaActiva();
-			logica.cambiarFormaPieza();
-			logica.actualizarColoresTablero();
+		case 37:
+			logica.jugar(-1, 0,1);
+			ReproductorEFX.reproducirAudio("audios/moverPieza.mp3");
+			pintarTablero();
+			break;
+		case 39:
+			logica.jugar(1, 0,1);
+			ReproductorEFX.reproducirAudio("audios/moverPieza.mp3");
+			pintarTablero();
+			break;
+		case 40:
+			logica.jugar(0, 1,1);
+			ReproductorEFX.reproducirAudio("audios/moverPieza.mp3");
+			pintarTablero();
+			break;
+		case 38:
+			logica.borrarPiezaActiva(1);
+			logica.cambiarFormaPieza(1);
+			logica.actualizarColoresTablero(1);
 			ReproductorEFX.reproducirAudio("audios/cambioDePieza.mp3");
 			pintarTablero();
 			break;
@@ -94,6 +102,15 @@ public class ListenerJuego implements KeyListener{
 		}
 		
 		Utiles.actualizar(panelJuego);
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		
 	}
 	
 	private void rellenarTableroVacio() {
