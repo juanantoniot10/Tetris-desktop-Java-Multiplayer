@@ -56,7 +56,6 @@ public class WorkerBajarPiezaAuto extends SwingWorker<Object, Object>{
 					pintarLineas();
 					pintarPuntos();
 					pintarNivel();
-					pintarNombreJugador(0);
 					bajarPiezas();
 					pintarTablero();
 					if(reproductor.isCancionTerminada()) {
@@ -108,12 +107,6 @@ public class WorkerBajarPiezaAuto extends SwingWorker<Object, Object>{
 		logica.grabarJugador(panelJugadorParaGuardar.getNombre().getText(),Integer.valueOf(panelJugadorParaGuardar.getPuntos().getText()).intValue());
 		padrePanelJuego.add(panelPuntuaciones);
 		ActualizarTablaPuntuaciones();
-	}
-
-	private void pintarNombreJugador(int numeroJugador) {
-		for (int i = 0; i < logica.getJugadores().size(); i++) {
-			((PanelJugador)this.panelJugadores.getComponent(0)).getNombre().setText(String.valueOf(logica.getJugadores().get(0).getNombre()));
-		}
 	}
 
 	private void pintarNivel() {

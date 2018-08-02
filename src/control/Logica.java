@@ -110,7 +110,7 @@ public class Logica {
 	private boolean gestionarMovimiento(int lateral,int vertical,int numeroPieza) {
 		boolean movimientoFinalizado = false;
 		movimientoFinalizado = comprobarAbajo(vertical, numeroPieza);
-		movimientoFinalizado = comprobarLateral(lateral, numeroPieza);
+		if(!movimientoFinalizado)movimientoFinalizado = comprobarLateral(lateral, numeroPieza);
 		return movimientoFinalizado;
 	}
 
@@ -151,7 +151,7 @@ public class Logica {
 					if(!comprobandoLinea) {
 						comprobandoLinea = true;
 						ReproductorEFX.reproducirAudio("audios/encajarPieza.mp3");
-						comprobarLineas();
+						comprobarLineas(numeroPieza);
 						ponerPiezaNextEnTablero(numeroPieza);
 						if(comprobarAbajo(1, numeroPieza)) {
 							fin = true;
@@ -167,7 +167,7 @@ public class Logica {
 	}
 
 	
-	private void comprobarLineas() {
+	private void comprobarLineas(int numeroPieza) {
 		for (int i = 0; i < tablero.length; i++) {
 			boolean linea = true;
 			linea = isLinea(i, linea);
@@ -177,7 +177,8 @@ public class Logica {
 				lineasConsecutivas ++;
 				this.numeroDeLinea = i;
 				puntuarLineas();
-				bajarLinea();
+				bajarLinea(numeroPieza);
+				linea=true;
 			}
 		}
 		lineasConsecutivas = 0;
@@ -190,16 +191,34 @@ public class Logica {
 		
 	}
 
-	private void bajarLinea() {
+	private void bajarLinea(int numeroPieza) {
+		borrarOtrasPiezas(numeroPieza);
 		for ( ; numeroDeLinea  > -1; numeroDeLinea--) {
 			for (int k = 0; k < tablero[numeroDeLinea].length; k++) {
 				if(numeroDeLinea==0) {
 					tablero[0][k]=new Casilla(Color.BLACK, 0, k);
 				}
 				else {
-					tablero[numeroDeLinea][k]=new Casilla(tablero[numeroDeLinea-1][k].getColor(),numeroDeLinea, k);
+					tablero[numeroDeLinea][k].setColor(tablero[numeroDeLinea-1][k].getColor());
 					
 				}
+			}
+		}
+		pintarOtrasPiezas(numeroPieza);
+	}
+
+	private void pintarOtrasPiezas(int numeroPieza) {
+		for (int i = 0; i < piezasActiva.size(); i++) {
+			if(i!=numeroPieza) {
+				actualizarColoresTablero(i);
+			}
+		}
+	}
+
+	private void borrarOtrasPiezas(int numeroPieza) {
+		for (int i = 0; i < piezasActiva.size(); i++) {
+			if(i!=numeroPieza) {
+				borrarPiezaActiva(i);
 			}
 		}
 	}
