@@ -55,6 +55,7 @@ public class PanelJugador extends JPanel{
 		add(nombre, gbc_nombre);
 		
 		btnMusicOnoff = new JButton("");
+		btnMusicOnoff.setFocusable(false);
 		btnMusicOnoff.setIconTextGap(3);
 		btnMusicOnoff.setBorder(null);
 		btnMusicOnoff.setBackground(Color.BLACK);

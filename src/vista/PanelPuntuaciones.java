@@ -7,6 +7,8 @@ import java.awt.BorderLayout;
 import java.awt.Insets;
 import javax.swing.table.DefaultTableModel;
 import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
+import javax.swing.JButton;
 
 public class PanelPuntuaciones extends JPanel{
 	/**
@@ -17,6 +19,8 @@ public class PanelPuntuaciones extends JPanel{
 	private String[] nombresColumnas = { "Nombre", "Puntos", "Lineas", "Nivel" };
 	private DefaultTableModel modeloTabla = new DefaultTableModel(data, nombresColumnas);
 	private JTable table;
+	private JButton botonSalir;
+	private JButton botonReiniciar;
 
 	/**
 	 * Create the frame.
@@ -33,6 +37,16 @@ public class PanelPuntuaciones extends JPanel{
 		table = new JTable(modeloTabla);
 		table.setEnabled(true);
 		scrollPane.setViewportView(table);
+		
+		JPanel panel = new JPanel();
+		add(panel, BorderLayout.NORTH);
+		panel.setLayout(new GridLayout(0, 2, 0, 0));
+		
+		botonReiniciar = new JButton("REINICIAR");
+		panel.add(botonReiniciar);
+		
+		botonSalir = new JButton("SALIR");
+		panel.add(botonSalir);
 
 		GridBagConstraints gbc_textFieldDescripcion = new GridBagConstraints();
 		gbc_textFieldDescripcion.gridheight = 3;
@@ -60,6 +74,46 @@ public class PanelPuntuaciones extends JPanel{
 
 	public JTable getTablaCliente() {
 		return table;
+	}
+
+	public String[][] getData() {
+		return data;
+	}
+
+	public void setData(String[][] data) {
+		this.data = data;
+	}
+
+	public String[] getNombresColumnas() {
+		return nombresColumnas;
+	}
+
+	public void setNombresColumnas(String[] nombresColumnas) {
+		this.nombresColumnas = nombresColumnas;
+	}
+
+	public JTable getTable() {
+		return table;
+	}
+
+	public void setTable(JTable table) {
+		this.table = table;
+	}
+
+	public JButton getBotonSalir() {
+		return botonSalir;
+	}
+
+	public void setBotonSalir(JButton botonSalir) {
+		this.botonSalir = botonSalir;
+	}
+
+	public JButton getBotonReiniciar() {
+		return botonReiniciar;
+	}
+
+	public void setBotonReiniciar(JButton botonReiniciar) {
+		this.botonReiniciar = botonReiniciar;
 	}
 	
 }

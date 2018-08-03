@@ -40,7 +40,13 @@ public class WorkerBajarPiezaAuto extends SwingWorker<Object, Object>{
 		this.cuadradosTablero = cuadradosTablero;
 		this.reproductor = new ReproductorBSO();
 		this.panelPuntuaciones = new PanelPuntuaciones();
-		((PanelJugador)panelJugadores.getComponent(0)).getBtnMusicOnoff().addActionListener(reproductor);
+		ponerListenerMusica();
+	}
+
+	private void ponerListenerMusica() {
+		for (int i = 0; i < logica.getJugadores().size(); i++) {
+			((PanelJugador)panelJugadores.getComponent(i)).getBtnMusicOnoff().addActionListener(reproductor);
+		}
 		((PanelJugador)panelJugadores.getComponent(0)).getBtnMusicOnoff().doClick();
 	}
 
@@ -103,10 +109,16 @@ public class WorkerBajarPiezaAuto extends SwingWorker<Object, Object>{
 			e.printStackTrace();
 		}
 		padrePanelJuego.removeAll();
-		PanelJugador panelJugadorParaGuardar = ((PanelJugador)panelJugadores.getComponent(0));
-		logica.grabarJugador(panelJugadorParaGuardar.getNombre().getText(),Integer.valueOf(panelJugadorParaGuardar.getPuntos().getText()).intValue());
+		guardarPuntuaciones();
 		padrePanelJuego.add(panelPuntuaciones);
 		ActualizarTablaPuntuaciones();
+	}
+
+	private void guardarPuntuaciones() {
+		for (int i = 0; i < logica.getJugadores().size(); i++) {
+			PanelJugador panelJugadorParaGuardar = ((PanelJugador)panelJugadores.getComponent(i));
+			logica.grabarJugador(panelJugadorParaGuardar.getNombre().getText(),Integer.valueOf(panelJugadorParaGuardar.getPuntos().getText()).intValue());
+		}
 	}
 
 	private void pintarNivel() {
